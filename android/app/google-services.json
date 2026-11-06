@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "823023418519",
+    "project_id": "daftari-8fd08",
+    "storage_bucket": "daftari-8fd08.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:823023418519:android:22762a74d21b7d5d6dbdd2",
+        "android_client_info": {
+          "package_name": "com.example.daftari"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCJAGcGIU00KOW5hKbmxbkJ6JUbbzHsfYg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
