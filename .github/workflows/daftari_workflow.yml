@@ -1,0 +1,74 @@
+
+name: Flutter CI/CD
+
+on:
+  push:
+    branches:
+      - master
+
+  pull_request:
+    branches:
+      - master
+
+permissions:
+  contents: read
+
+concurrency:
+  group: flutter-ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  quality:
+    name: Flutter Quality Checks
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1. Get repository source code
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # 2. Setup Java for Android builds
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+
+      # 3. Install Flutter SDK
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          flutter-version: '3.47.8'
+          cache: true
+
+      # 4. Setup Ruby and Fastlane dependencies
+      - name: Setup Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.3'
+          bundler-cache: true
+
+      # 5. Install Flutter dependencies
+      - name: Install dependencies
+        run: flutter pub get
+
+      # 6. Check Dart formatting
+      - name: Check formatting
+        run: dart format --output=none --set-exit-if-changed .
+
+      # 7. Run static analysis
+      - name: Flutter analyze
+        run: flutter analyze --fatal-infos
+
+      # 8. Run automated tests
+      - name: Flutter tests
+        run: flutter test --coverage
+
+      # 9. Build APK and distribute to Firebase
+      - name: Deploy to Firebase App Distribution
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        env:
+          FIREBASE_APP_ID: ${{ secrets.FIREBASE_APP_ID }}
+          FIREBASE_CLI_TOKEN: ${{ secrets.FIREBASE_CLI_TOKEN }}
+        run: bundle exec fastlane android firebase --fastfile android/fastlane/Fastfile

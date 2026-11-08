@@ -1,38 +1,28 @@
-# This file contains the fastlane.tools configuration
-# You can find the documentation at https://docs.fastlane.tools
-#
-# For a list of all available actions, check out
-#
-#     https://docs.fastlane.tools/actions
-#
-# For a list of all available plugins, check out
-#
-#     https://docs.fastlane.tools/plugins/available-plugins
-#
-
-# Uncomment the line if you want fastlane to automatically update itself
-# update_fastlane
-
 default_platform(:android)
 
+PROJECT_ROOT = File.expand_path("../..", __dir__)
+
 platform :android do
-  desc "Runs all the tests"
-  lane :test do
-    gradle(task: "test")
+
+  desc "Build APK and distribute to Firebase App Distribution"
+  lane :firebase do
+    Dir.chdir(PROJECT_ROOT) do
+
+      sh("flutter clean")
+      sh("flutter build apk --release")
+
+      firebase_app_distribution(
+        app: ENV.fetch("FIREBASE_APP_ID"),
+        firebase_cli_token: ENV.fetch("FIREBASE_CLI_TOKEN"),
+        android_artifact_path: File.join(
+          PROJECT_ROOT,
+          "build/app/outputs/flutter-apk/app-release.apk"
+        ),
+        testers: "mostafagalal1712004@gmail.com",
+        release_notes: "Automated CI build"
+      )
+
+    end
   end
 
-  desc "Submit a new Beta Build to Crashlytics Beta"
-  lane :beta do
-    gradle(task: "clean assembleRelease")
-    crashlytics
-  
-    # sh "your_script.sh"
-    # You can also use other beta testing services here
-  end
-
-  desc "Deploy a new version to the Google Play"
-  lane :deploy do
-    gradle(task: "clean assembleRelease")
-    upload_to_play_store
-  end
 end
