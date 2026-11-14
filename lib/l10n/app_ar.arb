@@ -1,0 +1,31 @@
+{
+  "@@locale": "ar",
+  "appName": "دفتري",
+  "@appName": {
+    "description": "The app name shown on the splash screen, app bars, and the task switcher."
+  },
+  "tabDashboard": "الرئيسية",
+  "@tabDashboard": {
+    "description": "Label of the dashboard tab in the bottom navigation bar."
+  },
+  "tabCustomers": "العملاء",
+  "@tabCustomers": {
+    "description": "Label of the customers tab in the bottom navigation bar."
+  },
+  "tabSettings": "الإعدادات",
+  "@tabSettings": {
+    "description": "Label of the settings tab in the bottom navigation bar."
+  },
+  "splashTagline": "سجّل حسابات عملائك بسهولة وبدون إنترنت",
+  "@splashTagline": {
+    "description": "Short tagline shown under the app name on the splash screen."
+  },
+  "emptyStateTitle": "لا يوجد شيء بعد",
+  "@emptyStateTitle": {
+    "description": "Title of the shared empty state shown when a list has no items."
+  },
+  "emptyStateMessage": "ستظهر البيانات هنا عندما تبدأ بإضافة العملاء والحركات",
+  "@emptyStateMessage": {
+    "description": "Message of the shared empty state shown when a list has no items."
+  }
+}
