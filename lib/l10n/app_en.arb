@@ -1,0 +1,31 @@
+{
+  "@@locale": "en",
+  "appName": "Daftari",
+  "@appName": {
+    "description": "The app name shown on the splash screen, app bars, and the task switcher."
+  },
+  "tabDashboard": "Home",
+  "@tabDashboard": {
+    "description": "Label of the dashboard tab in the bottom navigation bar."
+  },
+  "tabCustomers": "Customers",
+  "@tabCustomers": {
+    "description": "Label of the customers tab in the bottom navigation bar."
+  },
+  "tabSettings": "Settings",
+  "@tabSettings": {
+    "description": "Label of the settings tab in the bottom navigation bar."
+  },
+  "splashTagline": "Your customer credit ledger — easy and always available",
+  "@splashTagline": {
+    "description": "Short tagline shown under the app name on the splash screen."
+  },
+  "emptyStateTitle": "Nothing here yet",
+  "@emptyStateTitle": {
+    "description": "Title of the shared empty state shown when a list has no items."
+  },
+  "emptyStateMessage": "Data will appear here once you start adding customers and transactions",
+  "@emptyStateMessage": {
+    "description": "Message of the shared empty state shown when a list has no items."
+  }
+}
