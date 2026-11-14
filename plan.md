@@ -749,9 +749,10 @@ Other files CI needs: the per-flavor `google-services.json` for Crashlytics (`an
 
 ## 12. Build order
 
-The app is built **offline first**. Phases 0 to 6 produce a complete app that works with no account and no internet. Backup is the last stage of this version (Phase 7). The schema is sync-ready from day one (UUID ids, `updated_at`, `deleted_at`, `sync_state`), so adding backup later needs no data migration. Add `supabase_flutter`, `google_sign_in`, and `connectivity_plus` only in Phase 7.
+The app is built **offline first**. Phases 0 to 6 produce a complete app that works with no account and no internet. Backup is the last stage of this version (Phase 7). The schema is sync-ready from day one (UUID ids, `updated_at`, `deleted_at`, `sync_state`), so adding backup later needs no data migration. Add `supabase_flutter`, `google_sign_in`, and `connectivity_plus` only in Phase 7. Each phase below lists the design screens it implements; the PNGs live in `desgin/` and are the visual source of truth (filenames quoted as-is, including typos).
 
 **Phase 0 — Foundation**
+Design screens: none (no dedicated screens; theme tokens, l10n, and the router shell underpin every screen).
 - [ ] Repo setup, lints, folder structure
 - [ ] Theme tokens and `ThemeExtension`, shared widgets skeleton
 - [ ] gen-l10n with Arabic and English, RTL check
@@ -759,37 +760,55 @@ The app is built **offline first**. Phases 0 to 6 produce a complete app that wo
 - [ ] Drift `AppDatabase` with both tables, migration test, CI running through the existing `daftari_workflow.yml`
 
 **Phase 1 — Domain and data (with tests)**
+Design screens: none (logic only, no UI).
 - [ ] `Money`, `Failure`, entities, repository interfaces
 - [ ] Customers and transactions repositories, DAOs, balance queries
 - [ ] Use cases and unit tests for balance, history, and ordering
 
 **Phase 2 — Core screens**
+Design screens: desgin/cutomers.png, desgin/empty_customers.png, desgin/add_new_customer.png, desgin/customer_details_and_history.png, desgin/add_transaction.png.
 - [ ] Customers list, add/edit customer, import from contacts
 - [ ] Customer details with history
 - [ ] Add/edit transaction with the keypad, quick amount chips, and the change-customer chooser
+- [ ] Add marionette_flutter (debug-only) and MarionetteBinding behind kDebugMode for design-match verification
 
 **Phase 3 — Dashboard and settings**
+Design screens: desgin/dashboard.png, desgin/settings.png, desgin/dark_mode.png, desgin/choose_language.png (language chooser is built here as the settings language-switch destination and reused by the Phase 6 first-run flow).
 - [ ] Dashboard (today's collections, reassurance card, tip cards), settings, theme mode, language switch, shop name
 
 **Phase 4 — Security**
+Design screens: desgin/lock_screen.png (PIN setup reuses the same keypad UI).
 - [ ] PIN setup and lock, biometrics, auto-lock, router guard
 
 **Phase 5 — Statement**
+Design screens: desgin/wattsapp_report.png (statement preview + WhatsApp share).
 - [ ] Statement text, WhatsApp share, fallback
 
 **Phase 6 — Offline polish**
+Design screens: desgin/splash.png, desgin/onboarding.png; reuses desgin/choose_language.png (first-run flow: splash → language → onboarding) and polishes desgin/empty_customers.png.
 - [ ] Onboarding and splash, empty states, accessibility pass, low-end device check
 - [ ] Rebuild check with Flutter DevTools on the dashboard, customers list, and history (no widget rebuilds for unrelated state changes)
 - [ ] Full offline check: every feature works with no account and no internet
 
 **Phase 7 — Account and backup (last stage of this version)**
+Design screens: desgin/login.png, desgin/create_account.png, desgin/backup.png (these screens must not be built before this phase).
 - [ ] Supabase project, schema, RLS, triggers
 - [ ] Auth (Google, email), secure session storage
 - [ ] Sync push/pull, status UI, restore, account deletion (Edge Function)
 - [ ] Home backup banner and reassurance card, Settings account and backup rows
 
 **Phase 8 — Release**
+Design screens: none (no new UI; store assets derive from existing screens).
 - [ ] Flavors and `--dart-define` config, service-account auth, release workflow, closed testing, fixes, production release
+
+**UI verification (Marionette)**
+
+Applies to every phase with screens (Phases 2 to 7), before the phase is marked Done in agent.md Section 3.
+
+- Run the app in debug mode (`flutter run`) and connect Marionette MCP to the VM service.
+- Walk through each of the phase's design screens in Arabic (RTL) and English, Light and Dark, capture screenshots, and compare them against the corresponding `desgin/` PNGs.
+- The bar is structure, hierarchy, spacing, colors, typography, and RTL behavior — the PNGs are mockups, not pixel specs. Fix mismatches, re-verify, then mark the phase Done.
+- Screenshots are working artifacts: never commit them.
 
 **Definition of done for a feature**
 - Domain and Cubit tests pass; widget tests for key flows
@@ -797,6 +816,7 @@ The app is built **offline first**. Phases 0 to 6 produce a complete app that wo
 - No analyzer warnings; no business logic in widgets
 - No sensitive data in logs
 - Manually checked on a low-end Android device
+- UI matches the phase's design screens (verified with Marionette screenshots)
 
 ---
 

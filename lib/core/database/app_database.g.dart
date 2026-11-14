@@ -1147,6 +1147,10 @@ abstract class _$AppDatabase extends GeneratedDatabase {
     'idx_transactions_sync_state',
     'CREATE INDEX idx_transactions_sync_state ON transactions (sync_state)',
   );
+  late final CustomersDao customersDao = CustomersDao(this as AppDatabase);
+  late final TransactionsDao transactionsDao = TransactionsDao(
+    this as AppDatabase,
+  );
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();

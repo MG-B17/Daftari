@@ -43,6 +43,9 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+desgin
 
 # Widget Preview related
 .widget_preview/
+# Local phase progress log (personal, not committed)
+/check.md

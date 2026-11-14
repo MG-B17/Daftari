@@ -2,12 +2,17 @@ import 'package:drift/drift.dart';
 import 'package:drift/native.dart';
 import 'package:drift_flutter/drift_flutter.dart';
 
+import '../../features/customers/data/datasources/customers_dao.dart';
+import '../../features/transactions/data/datasources/transactions_dao.dart';
 import 'tables/customers_table.dart';
 import 'tables/transactions_table.dart';
 
 part 'app_database.g.dart';
 
-@DriftDatabase(tables: [Customers, Transactions])
+@DriftDatabase(
+  tables: [Customers, Transactions],
+  daos: [CustomersDao, TransactionsDao],
+)
 class AppDatabase extends _$AppDatabase {
   /// Opens the app's on-disk database (offline-first local storage).
   AppDatabase() : super(driftDatabase(name: 'daftari'));

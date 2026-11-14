@@ -38,17 +38,19 @@ Violating any of these is a defect, regardless of the task.
 
 **Strategy:** build **offline first**. Backup is the last stage of this version.
 
-| Phase | Content | Status |
-|---|---|---|
-| 0 | Foundation: structure, lints, theme, l10n, DI, router shell, Drift database | Current |
-| 1 | Domain and data for customers and transactions, with tests | Planned |
-| 2 | Customers and transactions screens, keypad, quick amount chips, change-customer chooser | Planned |
-| 3 | Dashboard, settings, theme mode, language, shop name | Planned |
-| 4 | Security: PIN, biometrics, auto-lock | Planned |
-| 5 | Statement and WhatsApp sharing | Planned |
-| 6 | Offline polish: onboarding, splash, empty states, accessibility | Planned |
-| 7 | Account and backup: Supabase, sign-in, sync, restore, account deletion | Last stage |
-| 8 | Release: flavors, release workflow, closed testing, Google Play | Planned |
+| Phase | Content | Status | Design screens |
+|---|---|---|---|
+| 0 | Foundation: structure, lints, theme, l10n, DI, router shell, Drift database | Done | — |
+| 1 | Domain and data for customers and transactions, with tests | Current | — |
+| 2 | Customers and transactions screens, keypad, quick amount chips, change-customer chooser | Planned | cutomers, empty_customers, add_new_customer, customer_details_and_history, add_transaction |
+| 3 | Dashboard, settings, theme mode, language, shop name | Planned | dashboard, settings, dark_mode, choose_language |
+| 4 | Security: PIN, biometrics, auto-lock | Planned | lock_screen |
+| 5 | Statement and WhatsApp sharing | Planned | wattsapp_report |
+| 6 | Offline polish: onboarding, splash, empty states, accessibility | Planned | splash, onboarding (+ choose_language, empty_customers) |
+| 7 | Account and backup: Supabase, sign-in, sync, restore, account deletion | Last stage | login, create_account, backup |
+| 8 | Release: flavors, release workflow, closed testing, Google Play | Planned | — |
+
+Design screens live in `desgin/` (filenames as-is, including typos) and are the visual source of truth for each phase; each phase is Marionette-verified against them before its Status changes to Done.
 
 **Until Phase 7:** do not add Supabase, Google sign-in, connectivity or sync code, or any backup UI (home banner, reassurance card, Settings backup rows, sign-in screens).
 
@@ -226,6 +228,7 @@ All arithmetic is on integers. Parsing and formatting live in `core/money`. Neve
 ## 8. UI, design, and localization
 
 - Follow the Figma design. Use the shared widgets in `core/widgets`: `DaftariAppBar`, `DaftariBottomNav`, `Keypad`, `BalanceText`, `CustomerTile`, `TransactionTile`, `EmptyState`, `QuickAmountChips`, `TipCard`. Do not create new app bar styles, colors, or fonts.
+- The `desgin/` PNGs are the visual source of truth per phase (see Section 3); after each UI phase the implementation is verified against them with Marionette screenshots (see Sections 12 and 14).
 - Default locale `ar` (RTL), also `en`. Use `EdgeInsetsDirectional` and `AlignmentDirectional`; never `left` or `right` for layout. Test every screen in both directions.
 - Always pair color with a text label. Never use color alone.
 - Minimum touch target 48 px. Support larger system font sizes.
@@ -299,6 +302,7 @@ Font: Cairo. Material 3. Custom colors (`owed`, `paid`, `warning`) are exposed t
 1. Run format, analyze, and tests.
 2. Self-review against the checklist in Section 14.
 3. Report: what changed, files touched, tests added and their results, assumptions made, and open questions.
+4. For phases with UI, run the design-match pass: connect Marionette to the debug app, capture each of the phase's design screens, and compare against the `desgin/` PNGs; fix mismatches before reporting done.
 
 ## 13. Anti-patterns
 
@@ -326,6 +330,7 @@ Font: Cairo. Material 3. Custom colors (`owed`, `paid`, `warning`) are exposed t
 - [ ] Empty, error, loading, and offline states are handled.
 - [ ] No sensitive data in logs or reports.
 - [ ] Checked on a low-end Android device.
+- [ ] UI matches the phase's design screens (verified with Marionette screenshots).
 
 ## 15. Glossary
 
